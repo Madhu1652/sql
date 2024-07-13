@@ -1,0 +1,61 @@
+-------joins------
+  create table department(
+  dept_id int primary key,
+  dept_name varchar(20));
+ 
+create table employee(
+emp_id int primary key,
+emp_name varchar(20),
+dept_id int,
+age int,
+Gender char(1),
+foreign key(dept_id) references department(dept_id));
+
+insert into department values(1,'IT dept');
+insert into department values(2,'Product dept');
+insert into department values(3,'Software dept');
+insert into department values(4,'Sales dept');
+insert into department values(5,'HR dept');
+
+select *from department;
+
+insert into employee values(1,'Ajith',3,25,'M');
+insert into employee values(2,'Mahesh',1,24,'M');
+insert into employee values(3,'Divya',4,23,'F');
+insert into employee values(4,'Amith',1,30,'M');
+insert into employee values(5,'Rachana',null,29,'F');
+
+select *from employee;
+
+------inner join-----
+select employee.emp_id,employee.emp_name,employee.age,employee.Gender,department.dept_name 
+from department 
+inner join employee on department.dept_id=employee.dept_id;
+
+
+------right outer join--------
+select employee.emp_id,employee.emp_name,employee.age,employee.Gender,department.dept_name
+from department right outer join employee on department.dept_id=employee.dept_id;
+
+------
+select employee.emp_name,department.dept_name from employee 
+inner join department on employee.dept_id=department.dept_id;
+
+
+-----left outer join-----
+select employee.emp_name,department.dept_name from employee 
+left outer join department on employee.dept_id=department.dept_id;
+
+select employee.emp_id,employee.emp_name,employee.age,employee.Gender,department.dept_name 
+from employee 
+cross join department ;
+
+
+-----left join using where condition-------
+select employee.emp_name from employee left join department 
+on employee.dept_id=department.dept_id where department.dept_id is null;
+
+
+------inner join using order by clause--------
+select employee.emp_name,department.dept_name from employee inner join department
+on employee.dept_id=department.dept_id order by employee.age desc ;
