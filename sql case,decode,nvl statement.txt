@@ -1,0 +1,33 @@
+create table person(
+person_id int primary key,
+person_name varchar(20),
+age int,
+gender char(2),
+weight int,
+bank_id int,
+marks int);
+
+insert into person values(1,'Ajay',35,'M',45,2,70);
+insert into person values(2,'Ramesh',21,'M',68,1,90);
+insert into person values(3,'Geetha',19,'F',35,3,60);
+insert into person values(4,'Joey',15,'M',90,4,85);
+insert into person values(5,'Divya',35,'F',50,1,75);
+insert into person values(6,'Moni',null,'F',25,2,null);
+
+select *from person;
+-----case statement------
+select person_name,marks, (case when marks>=80 then 'Distinction'
+ when marks<=65 then 'Pass'
+ else 'First class'
+ end) as result from person;
+
+select person_name,bank_id,(case when bank_id = 1 then 'HDFC bank'
+ when bank_id = 2 then 'ICICI bank' when bank_id = 3 then 'SBI bank'
+ else 'other' end) as bank_name from person;
+
+ ------decode statement------
+ select person_name ,DECODE(bank_id,1,'HDFC bank',2,'ICICI bank',3,'SBI bank',
+ 'other bank')from person;
+ 
+ -------nvl statement------
+ select person_name, nvl(age,30),nvl(marks,75) from person;

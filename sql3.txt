@@ -1,0 +1,40 @@
+create table customer(
+cust_id int primary key,
+item_id int,
+cust_name varchar(20),
+phone_num varchar(10),
+order_id int,
+order_date date,
+amount decimal(5));
+
+insert into customer values(101,1,'Bavana',7869040007,01,'2020-06-06',1000);
+insert into customer values(102,2,'Bhavya',7869046679,02,'2021-11-25',1200);
+insert into customer values(103,3,'Chandu',9089008970,03,'2019-12-30',800);
+insert into customer values(104,4,'Divya',9088779066,04,'2023-07-23',3000);
+insert into customer values(105,5,'Manasa',9632277060,05,'2024-09-18',2500);
+insert into customer values(106,6,'Naveen',8762944800,06,'2024-10-29',1300);
+insert into customer values(107,7,'Pradeep',8899077860,07,'2024-03-08',1800);
+
+select *from customer;
+
+create table items(
+cust_id int,
+item_id int,
+primary key(item_id,cust_id),
+item varchar(30),
+amount decimal(5),
+quality int,
+foreign key(cust_id) references customer(cust_id));
+
+insert into items values(101,1,'Computer',1000,3);
+insert into items values(102,2,'CPU',1200,5);
+insert into items values(103,1,'Computer',1000,3);
+insert into items values(104,1,'Computer',1000,5);
+insert into items values(105,2,'CPU',1200,5);
+insert into items values(106,3,'mobile',800,4);
+insert into items values(107,1,'Computer',1000,3);
+insert into items values(105,3,'mobile',800,4);
+insert into items values(104,4,'monitor',3000,5);
+
+
+select *from items;

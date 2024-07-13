@@ -1,0 +1,44 @@
+create table ecustomer(
+  cust_id int primary key,
+  cust_name varchar(20),
+  age int,
+  city varchar(20));
+
+insert into ecustomer values(1,'Virat',32,'Delhi');
+insert into ecustomer values(2,'Rohit',21,'Mumbai');
+insert into ecustomer values(3,'Rahul',25,'Bangaloru');
+insert into ecustomer values(4,'Ashwin',20,'Chennai');
+insert into ecustomer values(5,'Geetha',35,'Ahmedabad');
+insert into ecustomer values(6,'Anu',19,'Delhi');
+
+select *from ecustomer;
+
+create table customer(
+cust_id int primary key,
+cust_name varchar(20),
+age int,
+city varchar(20));
+
+insert into customer values(1,'Anu',35,'Delhi');
+insert into customer values(2,'Geetha',20,'Mysore');
+insert into customer values(3,'Divya',30,'Chennai');
+insert into customer values(4,'Ajay',25,'Delhi');
+insert into customer values(5,'Monica',40,'Bangaloru');
+
+select *from customer;
+
+select cust_name from ecustomer where cust_name in (select cust_name from customer
+where cust_id=2);
+
+select cust_name from customer where cust_name in (select cust_name from ecustomer
+where age<20);
+
+
+select *from customer where cust_name in(select cust_name from ecustomer where
+city='Delhi');
+
+delete from ecustomer where cust_id = (select cust_id from customer
+where cust_name='Geetha');
+
+
+insert into ecustomer(select *from customer where cust_id=1);
