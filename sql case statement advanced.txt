@@ -1,0 +1,58 @@
+4)nest CASE statements?
+=>
+SELECT EmployeeID,
+       Salary,
+       CASE
+           WHEN Department = 'Sales' THEN
+               CASE
+                   WHEN Salary < 40000 THEN 'Junior Sales'
+                   ELSE 'Senior Sales'
+               END
+           WHEN Department = 'Engineering' THEN
+               CASE
+                   WHEN Salary < 60000 THEN 'Junior Engineer'
+                   ELSE 'Senior Engineer'
+               END
+           ELSE 'Other'
+       END AS JobCategory
+FROM Employees;
+
+5)NULL values in a CASE statement?
+=>
+SELECT EmployeeID,
+       Department,
+       CASE
+           WHEN Department IS NULL THEN 'Unknown'
+           ELSE Department
+       END AS DepartmentStatus
+FROM Employees;
+
+6)Use a CASE to generate a column that shows 'Early', 'On Time', or 'Late' based on the ArrivalTime column. Assume 'On Time' is between 9 AM and 9:15 AM?
+=>
+
+SELECT EmployeeID,
+       ArrivalTime,
+       CASE
+           WHEN ArrivalTime < '09:00:00' THEN 'Early'
+           WHEN ArrivalTime BETWEEN '09:00:00' AND '09:15:00' THEN 'On Time'
+           ELSE 'Late'
+       END AS ArrivalStatus
+FROM Attendance;
+
+7)Use a CASE statement can be used with aggregate functions?
+=>
+SELECT Department,
+       SUM(CASE
+               WHEN Salary < 30000 THEN Salary
+               ELSE 0
+           END) AS LowSalaries,
+       SUM(CASE
+               WHEN Salary BETWEEN 30000 AND 60000 THEN Salary
+               ELSE 0
+           END) AS MediumSalaries,
+       SUM(CASE
+               WHEN Salary > 60000 THEN Salary
+               ELSE 0
+           END) AS HighSalaries
+FROM Employees
+GROUP BY Department;

@@ -1,0 +1,38 @@
+1)categorize employees based on their salary into 'Low', 'Medium', and 'High' categories?
+=>
+SELECT EmployeeID,
+       Salary,
+       CASE
+           WHEN Salary < 30000 THEN 'Low'
+           WHEN Salary BETWEEN 30000 AND 60000 THEN 'Medium'
+           ELSE 'High'
+       END AS SalaryCategory
+FROM Employees;
+
+
+2)Use a CASE statement within an UPDATE statement to update a column based on conditions?
+=>
+UPDATE Employees
+SET SalaryCategory = CASE
+                        WHEN Salary < 30000 THEN 'Low'
+                        WHEN Salary BETWEEN 30000 AND 60000 THEN 'Medium'
+                        ELSE 'High'
+                     END;
+
+
+3)Use a CASE statement to calculate a 10% bonus for employees with a performance rating of 'A', 5% for 'B', and no bonus for others.
+=>
+SELECT EmployeeID,
+       Salary,
+       PerformanceRating,
+       Salary * CASE
+                   WHEN PerformanceRating = 'A' THEN 0.10
+                   WHEN PerformanceRating = 'B' THEN 0.05
+                   ELSE 0
+                END AS Bonus
+FROM Employees;
+
+
+
+
+
