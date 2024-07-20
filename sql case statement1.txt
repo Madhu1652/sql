@@ -1,0 +1,93 @@
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Salary DECIMAL(10, 2),
+    PerformanceRating CHAR(1),
+    Department VARCHAR(50),
+    BirthDate DATE,
+    PhoneNumber VARCHAR(20),
+    SalesTarget INT,
+    ProjectCount INT,
+    RawDate VARCHAR(50)  -- Assuming dates in various formats for demonstration
+);
+
+INSERT INTO Employees (EmployeeID, Name, Salary, PerformanceRating, Department, BirthDate, PhoneNumber, SalesTarget, ProjectCount, RawDate) VALUES
+(1, 'Alice', 25000.00, 'A', 'Sales', '1990-01-15', '(123) 456-7890', 10, NULL, '01/15/1990'),
+(2, 'Bob', 55000.00, 'B', 'Engineering', '1985-05-20', '123-456-7890', NULL, 5, '1985-05-20'),
+(3, 'Charlie', 70000.00, 'C', 'HR', '1970-09-30', '123.456.7890', NULL, NULL, '09-30-1970'),
+(4, 'David', 45000.00, 'A', 'Sales', '1992-03-10', '(987) 654-3210', 15, NULL, '03/10/1992'),
+(5, 'Eve', 60000.00, 'B', 'Engineering', '1988-07-25', '987-654-3210', NULL, 8, '1988-07-25'),
+(6, 'Frank', 30000.00, 'C', 'Sales', '1995-11-15', '(555) 555-5555', 5, NULL, '11-15-1995'),
+(7, 'Grace', 120000.00, 'A', 'Engineering', '1980-12-05', '555.555.5555', NULL, 10, '12-05-1980');
+
+
+select *from Employees;
+
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    Status VARCHAR(20)
+);
+
+INSERT INTO Orders (OrderID, CustomerID, Status) VALUES
+(1, 101, 'Pending'),
+(2, 102, 'Shipped'),
+(3, 103, 'Delivered'),
+(4, 104, 'Cancelled'),
+(5, 105, 'Pending'),
+(6, 106, 'Delivered'),
+(7, 107, 'Shipped');
+
+
+select *from Orders;
+
+
+1)CASE statement to handle different formats of phone numbers in a single column and standardize them?
+=>
+SELECT EmployeeID,
+       PhoneNumber,
+       CASE
+           WHEN PhoneNumber LIKE '(%' THEN SUBSTRING(PhoneNumber, 2, 3) || '-' || SUBSTRING(PhoneNumber, 6, 3) || '-' || SUBSTRING(PhoneNumber, 10, 4)
+           WHEN PhoneNumber LIKE '%-%' THEN PhoneNumber
+           ELSE 'Unknown Format'
+       END AS StandardPhoneNumber
+FROM Employees;
+
+
+2)classify employees into different age groups (e.g., 'Young', 'Middle-aged', 'Senior') based on their BirthDate column?
+=>
+SELECT EmployeeID,
+       BirthDate,
+       CASE
+           WHEN DATEDIFF(year, BirthDate, GETDATE()) < 30 THEN 'Young'
+           WHEN DATEDIFF(year, BirthDate, GETDATE()) BETWEEN 30 AND 50 THEN 'Middle-aged'
+           ELSE 'Senior'
+       END AS AgeGroup
+FROM Employees;
+
+
+3)CASE statement to handle different date formats in a column and convert them to a standard format?
+=>
+SELECT EmployeeID,
+       RawDate,
+       CASE
+           WHEN RawDate LIKE '%/%/%' THEN CONVERT(DATE, RawDate, 101)
+           WHEN RawDate LIKE '%-%-%' THEN CONVERT(DATE, RawDate, 120)
+           ELSE NULL
+       END AS StandardDate
+FROM Employees;
+
+
+4)CASE to display different messages based on the status of orders (Pending, Shipped, Delivered, Cancelled)?
+=>
+SELECT OrderID,
+       Status,
+       CASE
+           WHEN Status = 'Pending' THEN 'Your order is being processed.'
+           WHEN Status = 'Shipped' THEN 'Your order is on the way.'
+           WHEN Status = 'Delivered' THEN 'Your order has been delivered.'
+           WHEN Status = 'Cancelled' THEN 'Your order has been cancelled.'
+           ELSE 'Unknown status.'
+       END AS StatusMessage
+FROM Orders;
