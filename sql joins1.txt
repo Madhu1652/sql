@@ -1,0 +1,42 @@
+1)query to list of employees with their department names.
+=>
+SELECT e.EmployeeID, e.Name, d.DepartmentName
+FROM Employees e
+INNER JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+2)query to get all employees and their orders, including employees who have not placed any orders.
+=>
+SELECT e.EmployeeID, e.Name, o.OrderID, o.OrderDate
+FROM Employees e
+LEFT JOIN Orders o ON e.EmployeeID = o.EmployeeID;
+
+3)query for total sales for each employee?
+=>
+SELECT e.EmployeeID, e.Name, SUM(o.OrderAmount) AS TotalSales
+FROM Employees e
+INNER JOIN Orders o ON e.EmployeeID = o.EmployeeID
+GROUP BY e.EmployeeID, e.Name;
+
+4)query to find employees who have placed more than 5 orders?
+=>
+SELECT e.EmployeeID, e.Name, COUNT(o.OrderID) AS NumberOfOrders
+FROM Employees e
+INNER JOIN Orders o ON e.EmployeeID = o.EmployeeID
+GROUP BY e.EmployeeID, e.Name
+HAVING COUNT(o.OrderID) > 5;
+
+5) list of all products that have never been ordered?
+=>
+SELECT p.ProductID, p.ProductName
+FROM Products p
+LEFT JOIN OrderDetails od ON p.ProductID = od.ProductID
+WHERE od.ProductID IS NULL;
+
+6)top 3 departments based on the total number of employees?
+=>
+SELECT d.DepartmentID, d.DepartmentName, COUNT(e.EmployeeID) AS NumberOfEmployees
+FROM Departments d
+LEFT JOIN Employees e ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentID, d.DepartmentName
+ORDER BY NumberOfEmployees DESC
+LIMIT 3;
